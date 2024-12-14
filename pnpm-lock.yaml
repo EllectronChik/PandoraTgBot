@@ -11,22 +11,22 @@ importers:
       bs-logger:
         specifier: ^0.2.6
         version: 0.2.6
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.2
-        version: 22.10.2
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
       grammy:
         specifier: ^1.33.0
         version: 1.33.0(encoding@0.1.13)
-      nodemon:
-        specifier: ^3.1.9
-        version: 3.1.9
       sqlite3:
         specifier: ^5.1.7
         version: 5.1.7
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.10.2
+      nodemon:
+        specifier: ^3.1.9
+        version: 3.1.9
       ts-loader:
         specifier: ^9.5.1
         version: 9.5.1(typescript@5.7.2)(webpack@5.97.1)
