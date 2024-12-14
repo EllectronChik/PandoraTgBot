@@ -1,7 +1,24 @@
-import { Logger } from "bs-logger";
 import terminateProcess from "./terminateProcess";
+import IProcess from "./types/Process";
 
-export default function setupProcessEvents(logger: Logger) {
+export default function setupProcessEvents({
+  bot,
+  errorStream,
+  infoStream,
+  logger,
+}: IProcess) {
+  let terminated = false;
+
+  const terminate = () => {
+    if (terminated) {
+      console.error("Process already terminated");
+      return;
+    }
+    terminated = true;
+    terminateProcess({ bot, errorStream, infoStream, logger });
+    console.log("Process terminated");
+  };
+
   process.on("uncaughtException", (err) => {
     logger.error(`Uncaught Exception: ${err.message}`);
     process.exit(1);
@@ -11,7 +28,7 @@ export default function setupProcessEvents(logger: Logger) {
     logger.error(`Unhandled Rejection at ${promise}: ${reason}`);
   });
 
-  process.on("exit", terminateProcess);
-  process.on("SIGINT", terminateProcess);
-  process.on("SIGTERM", terminateProcess);
+  process.on("exit", terminate);
+  process.on("SIGINT", terminate);
+  process.on("SIGTERM", terminate);
 }
