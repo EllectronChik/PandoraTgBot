@@ -1,22 +1,13 @@
-import { Logger } from "bs-logger";
-import { WriteStream } from "fs";
-import { Bot } from "grammy";
-
-interface TerminateProcess {
-  bot: Bot;
-  errorStream: WriteStream;
-  infoStream: WriteStream;
-  logger: Logger;
-}
+import IProcess from "./types/Process";
 
 export default function terminateProcess(
-  { bot, errorStream, infoStream, logger }: TerminateProcess,
+  { bot, errorStream, infoStream, logger }: IProcess,
   onExit?: () => void
 ) {
   bot.stop();
+  logger.info("Bot successfully stopped");
   errorStream.end();
   infoStream.end();
-  logger.info("Bot successfully stopped");
 
   if (onExit) {
     onExit();
