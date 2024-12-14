@@ -6,8 +6,8 @@ import { createWriteStream } from "fs";
 import path from "path";
 
 export default async function setupLogger() {
-  const errorLogPath = path.resolve(__dirname, "../", "logs/errors");
-  const infoLogPath = path.resolve(__dirname, "../", "logs/info");
+  const errorLogPath = path.resolve(__dirname, "logs/errors");
+  const infoLogPath = path.resolve(__dirname, "logs/info");
 
   const errorLogFilename = path.join(
     errorLogPath,
@@ -74,5 +74,5 @@ export default async function setupLogger() {
   );
   infoStream.on("error", (err) => logger.error(`Stream error: ${err.message}`));
 
-  return logger;
+  return { logger, errorStream, infoStream };
 }
