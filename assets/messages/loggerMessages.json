@@ -1,0 +1,42 @@
+{
+  "info": {
+    "bot": {
+      "started": "Bot successfully started",
+      "stopped": "Bot successfully stopped"
+    },
+    "database": {
+      "exists": "Database already exists",
+      "started": "Starting database initialization",
+      "creating": {
+        "base": "Creating database at {databasePath}",
+        "dir": "Creating database directory at {databasePath}"
+      },
+      "initialized": "Database initialization completed",
+      "indexes_created": "Indexes created",
+      "table_created": "{tableName} table created",
+      "backups": {
+        "not_found": "No backups found"
+      }
+    }
+  },
+  "error": {
+    "bot": {
+      "token": "BOT_TOKEN is not defined"
+    },
+    "database": {
+      "initialization": "Error initializing database: {message}",
+      "backup": {
+        "restore": "Error restoring backup {backupPath}"
+      }
+    },
+    "file": {
+      "check": "Failed to check if \"{targetPath}\" is a directory. Reason: {reason}"
+    },
+    "unknown": {
+      "exception": "Uncaught Exception: {message}",
+      "rejection": "Unhandled Rejection at {promise}: {reason}",
+      "error": "Error: {message}",
+      "stream": "Stream error: {message}"
+    }
+  }
+}
