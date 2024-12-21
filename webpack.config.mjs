@@ -29,6 +29,7 @@ export default {
     extensions: [".ts", ".js"],
     alias: {
       "@": path.resolve(__dirname, "src"),
+      "assets": path.resolve(__dirname, "assets"),
     },
   },
   externals: [nodeExternals()],
