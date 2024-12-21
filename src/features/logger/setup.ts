@@ -41,9 +41,9 @@ export default async function setupLogger() {
         minLevel: LogLevels.error,
         format: (log) => {
           const date = new Date(log.time);
-          return `[${log.context.logLevel}][${date.toLocaleString()}]: ${
-            log.message
-          }`;
+          return `[${logLevelNameFor(
+            log.context.logLevel
+          )}][${date.toLocaleString()}]: ${log.message}`;
         },
       },
       {
