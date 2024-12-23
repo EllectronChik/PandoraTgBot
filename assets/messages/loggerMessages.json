@@ -7,6 +7,7 @@
     "database": {
       "exists": "Database already exists",
       "started": "Starting database initialization",
+      "restoring": "Restoring database from backup",
       "creating": {
         "base": "Creating database at {databasePath}",
         "dir": "Creating database directory at {databasePath}"
@@ -25,6 +26,15 @@
         "created": "Backup created at {backupPath}",
         "not_found": "No backups found"
       }
+    },
+    "process": {
+      "terminated": "Process terminated",
+      "already_terminated": "Process already terminated"
+    },
+    "file": {
+      "file_does_not_exist": "File \"{targetFilename}\" does not exist",
+      "directory_does_not_exist": "Directory \"{targetPath}\" does not exist",
+      "cnt": "File count: {cnt}"
     }
   },
   "error": {
@@ -35,7 +45,7 @@
       "initialization": "Error initializing database: {message}",
       "backup": {
         "creating": "Error creating backup at {backupPath}",
-        "restore": "Error restoring backup {backupPath}"
+        "restore": "Error restoring backup: {message}"
       },
       "admin": {
         "id_not_defined": "ADMIN_ID is not defined in .env",
@@ -43,13 +53,21 @@
       }
     },
     "file": {
-      "check": "Failed to check if \"{targetPath}\" is a directory. Reason: {reason}"
+      "check": "Failed to check if \"{targetPath}\" is a directory. Reason: {reason}",
+      "stats": "Failed to get file stats. Reason: {reason}",
+      "delete": "Failed to delete file. Reason: {reason}"
     },
+    "stream": "Stream error: {message}",
     "unknown": {
+      "stack": "Stack trace: {stack}",
+      "unknown_stack": "Unknown stack trace",
       "exception": "Uncaught Exception: {message}",
       "rejection": "Unhandled Rejection at {promise}: {reason}",
       "error": "Error: {message}",
       "stream": "Stream error: {message}"
+    },
+    "process": {
+      "env_not_defined": "Required environment variable {env} is not defined or invalid"
     }
   }
 }
