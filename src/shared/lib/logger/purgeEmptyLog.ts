@@ -1,24 +1,37 @@
 import { stat, unlink } from "fs/promises";
+import formatMessage from "../messages/formatMessage";
+import loggerMessages from "assets/messages/loggerMessages.json";
 
 export default async function purgeEmptyLog(
   targetFilename: string
 ): Promise<void> {
-  console.log(targetFilename);
   try {
     const stats = await stat(targetFilename);
     if (stats.size === 0) {
       await unlink(targetFilename);
     }
   } catch (err: unknown) {
+    const formatedStatsError = (reason: string) => {
+      console.error(
+        formatMessage(loggerMessages.error.file.stats, {
+          reason,
+        })
+      );
+    };
+
     if (err instanceof Error) {
       const nodeError = err as NodeJS.ErrnoException;
       if (nodeError.code === "ENOENT") {
-        console.log(`File ${targetFilename} does not exist`);
+        console.log(
+          formatMessage(loggerMessages.info.file.file_does_not_exist, {
+            targetFilename,
+          })
+        );
       } else {
-        console.error(`Error getting file stats: ${err.message}`);
+        formatedStatsError(err.message);
       }
     } else {
-      console.error(`Error getting file stats: ${err}`);
+      formatedStatsError(String(err));
     }
   }
 }
