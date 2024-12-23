@@ -1,5 +1,7 @@
+import formatMessage from "@/shared/lib/messages/formatMessage";
 import terminateProcess from "./terminateProcess";
 import IProcess from "./types/Process";
+import loggerMessages from "assets/messages/loggerMessages.json";
 
 export default function setupProcessEvents({
   bot,
@@ -11,21 +13,34 @@ export default function setupProcessEvents({
 
   const terminate = () => {
     if (terminated) {
-      console.error("Process already terminated");
+      console.error(loggerMessages.info.process.already_terminated);
       return;
     }
     terminated = true;
     terminateProcess({ bot, errorStream, infoStream, logger });
-    console.log("Process terminated");
+    console.log(loggerMessages.info.process.terminated);
   };
 
   process.on("uncaughtException", (err) => {
-    logger.error(`Uncaught Exception: ${err.message}`);
-    process.exit(1);
+    logger.error(
+      formatMessage(loggerMessages.error.unknown.exception, {
+        message: `${typeof err === "string" ? err : err.message}`,
+      })
+    );
+    logger.error(
+      formatMessage(loggerMessages.error.unknown.stack, {
+        stack: err.stack || loggerMessages.error.unknown.unknown_stack,
+      })
+    );
   });
 
   process.on("unhandledRejection", (reason, promise) => {
-    logger.error(`Unhandled Rejection at ${promise}: ${reason}`);
+    logger.error(
+      formatMessage(loggerMessages.error.unknown.rejection, {
+        promise: JSON.stringify(promise),
+        reason: JSON.stringify(reason),
+      })
+    );
   });
 
   process.on("exit", terminate);
