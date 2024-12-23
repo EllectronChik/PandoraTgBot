@@ -9,7 +9,6 @@ export default async function backupDatabase(
   logger: Logger,
   databasePath: string
 ) {
-  logger.info("Backup database called");
   const backupPath = path.join(databasePath, "backups");
   try {
     if (!(await isValidDirectoryPath(backupPath))) {
