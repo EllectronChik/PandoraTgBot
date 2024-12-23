@@ -29,7 +29,7 @@ export default async function entry() {
   const bot = new Bot(token);
 
   bot.catch((err) => {
-    logger.error(`Error: ${err.message}`);
+    logger.error(loggerMessages.error.unknown.error, { err });
     throw err;
   });
 
