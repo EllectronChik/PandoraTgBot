@@ -2,9 +2,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 import webpack from "webpack";
 import nodeExternals from "webpack-node-externals";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,7 +17,6 @@ export default {
   },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env": JSON.stringify(process.env),
       "__dirname": JSON.stringify(__dirname),
     })
   ],
