@@ -1,16 +1,30 @@
 import { Bot } from "grammy";
 import setupLogger from "@/features/logger/setup";
 import setupProcessEvents from "../helpers/setupProcessEvents";
+import path from "path";
+import loggerMessages from "assets/messages/loggerMessages.json";
+import chatMessages from "assets/messages/chatMessages.json";
+import dotenv from "dotenv";
+import backupJobManager from "../db/backup/backupJobManager";
+import ensureDatabase from "../db/ensure/ensureDatabase";
 
 export default async function entry() {
+  dotenv.config();
+
   const token = process.env.BOT_TOKEN;
 
-  const logger = await setupLogger();
+  const { logger, errorStream, infoStream } = await setupLogger();
+
+  const databasePath = path.resolve(__dirname, "data");
 
   if (!token) {
-    logger.error("BOT_TOKEN is not defined");
-    throw new Error("BOT_TOKEN is not defined");
+    logger.error(loggerMessages.error.bot.token);
+    throw new Error(loggerMessages.error.bot.token);
   }
+
+  await ensureDatabase(databasePath, logger);
+
+  backupJobManager.start(logger, databasePath);
 
   const bot = new Bot(token);
 
@@ -19,19 +33,12 @@ export default async function entry() {
     throw err;
   });
 
-  bot.on("message:text", (ctx) => {
-    logger.info(
-      `Message by ${ctx.message.from.first_name} ${
-        ctx.message.from.last_name || ""
-      }(id: ${ctx.message.from.id}): ${ctx.message.text} ${
-        ctx.message.forward_origin ? "forwarded" : ""
-      }`
-    );
-    ctx.reply("Echo: " + ctx.message.text);
+  bot.start();
+  logger.info(loggerMessages.info.bot.started);
+
+  bot.command("start", async (ctx) => {
+    await ctx.reply(chatMessages.welcome_message_html, { parse_mode: "HTML" });
   });
 
-  bot.start();
-  logger.info("Bot successfully started");
-
-  setupProcessEvents(logger);
+  setupProcessEvents({ bot, errorStream, infoStream, logger });
 }
