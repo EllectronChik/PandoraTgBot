@@ -9,7 +9,17 @@ export default async function tryRestoreDatabase(
   logger: Logger,
   databasePath: string
 ): Promise<boolean> {
-  const entries = await readdir(path.join(databasePath, "backups"));
+  const entries = await readdir(path.join(databasePath, "backups")).then(
+    (entries) => {
+      let result: string[] = [];
+      entries.forEach((entry) => {
+        if (entry.endsWith(".sqlite")) {
+          result.push(path.join(databasePath, "backups", entry));
+        }
+      });
+      return result;
+    }
+  );
 
   if (entries.length > 0) {
     const files = await filesWithStats(entries);
@@ -21,14 +31,15 @@ export default async function tryRestoreDatabase(
       while (tries < parseInt(backup_cnt || "3")) {
         try {
           await copyFile(
-            path.join(databasePath, "backups", backups[tries].file),
+            backups[tries].file,
             path.join(databasePath, "database.sqlite")
           );
+          logger.info(loggerMessages.info.database.restoring);
           return true;
-        } catch {
+        } catch (err: unknown) {
           logger.error(
             formatMessage(loggerMessages.error.database.backup.restore, {
-              backupPath: backups[tries].file,
+              message: err instanceof Error ? err.message : String(err),
             })
           );
           tries++;
