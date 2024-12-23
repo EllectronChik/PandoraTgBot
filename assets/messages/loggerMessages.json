@@ -14,7 +14,15 @@
       "initialized": "Database initialization completed",
       "indexes_created": "Indexes created",
       "table_created": "{tableName} table created",
-      "backups": {
+      "admin": {
+        "user_created": "Admin user created",
+        "trust_token_created": "Admin trust token created"
+      },
+      "backup": {
+        "job_started": "Backup job started",
+        "job_stopped": "Backup job stopped",
+        "creating": "Creating backup at {backupPath}",
+        "created": "Backup created at {backupPath}",
         "not_found": "No backups found"
       }
     }
@@ -26,7 +34,12 @@
     "database": {
       "initialization": "Error initializing database: {message}",
       "backup": {
+        "creating": "Error creating backup at {backupPath}",
         "restore": "Error restoring backup {backupPath}"
+      },
+      "admin": {
+        "id_not_defined": "ADMIN_ID is not defined in .env",
+        "trust_token_not_defined": "ADMIN_TRUST_TOKEN_HASH is not defined in .env"
       }
     },
     "file": {
