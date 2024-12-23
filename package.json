@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "start": "node dist/bundle.js",
-    "dev": "webpack --watch & nodemon dist/bundle.js"
+    "dev": "webpack && (webpack --watch & nodemon dist/bundle.js)"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,10 @@
   "packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c",
   "devDependencies": {
     "@types/node": "^22.10.2",
+    "@types/node-schedule": "^2.1.7",
+    "@typescript-eslint/eslint-plugin": "^8.18.1",
+    "@typescript-eslint/parser": "^8.18.1",
+    "eslint": "^9.17.0",
     "nodemon": "^3.1.9",
     "ts-loader": "^9.5.1",
     "typescript": "^5.7.2",
@@ -25,6 +29,7 @@
     "bs-logger": "^0.2.6",
     "dotenv": "^16.4.7",
     "grammy": "^1.33.0",
+    "node-schedule": "^2.1.1",
     "sqlite3": "^5.1.7"
   }
 }
