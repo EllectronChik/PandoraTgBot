@@ -11,7 +11,7 @@ const dbCreatingQueries: IQuery = {
     query: `
         CREATE TABLE users (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          user_id TEXT NOT NULL UNIQUE,
+          external_id TEXT NOT NULL UNIQUE,
           admin BOOLEAN DEFAULT 0,
           subscription_level INTEGER DEFAULT 1,
           status INTEGER DEFAULT 0,
