@@ -15,10 +15,7 @@
       "initialized": "Database initialization completed",
       "indexes_created": "Indexes created",
       "table_created": "{tableName} table created",
-      "admin": {
-        "user_created": "Admin user created",
-        "trust_token_created": "Admin trust token created"
-      },
+      "initial_row_inserted": "{rowName} inserted",
       "backup": {
         "job_started": "Backup job started",
         "job_stopped": "Backup job stopped",
