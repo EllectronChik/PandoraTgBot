@@ -2,7 +2,7 @@ interface IQuery {
   [key: string]: string;
 }
 
-const dbAdminQueries: IQuery = {
+const dbInitializeRowsQueries: IQuery = {
   createAdminUser: `
     INSERT INTO users (external_id, admin, subscription_level, status, tag_id)
     VALUES (?, 1, NULL, 0, NULL);
@@ -13,4 +13,4 @@ const dbAdminQueries: IQuery = {
   `,
 };
 
-export default dbAdminQueries;
+export default dbInitializeRowsQueries;
