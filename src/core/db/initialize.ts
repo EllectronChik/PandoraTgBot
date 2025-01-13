@@ -2,7 +2,7 @@ import { Logger } from "bs-logger";
 import { Database } from "sqlite3";
 import dbCreatingQueries from "./queries/dbCreatingQueries";
 import dbIndexQueries from "./queries/dbIndexQueries";
-import dbAdminQueries from "./queries/dbAdminQueries";
+import dbInitializeRowsQueries from "./queries/dbInitializeRowsQueries";
 import loggerMessages from "assets/messages/loggerMessages.json";
 import formatMessage from "@/shared/lib/messages/formatMessage";
 
@@ -42,16 +42,20 @@ export default function initializeDb(db: Database, logger: Logger) {
         );
       }
 
-      db.run(dbAdminQueries.createAdminUser, [process.env.ADMIN_ID]);
+      const initializeRowsQueries = dbInitializeRowsQueries();
 
-      logger.info(loggerMessages.info.database.admin.user_created);
+      Object.keys(initializeRowsQueries).forEach((query) => {
+        db.run(
+          initializeRowsQueries[query].query,
+          initializeRowsQueries[query].values
+        );
 
-      db.run(dbAdminQueries.createAdminTrustToken, [
-        process.env.ADMIN_ID,
-        process.env.ADMIN_TRUST_TOKEN_HASH,
-      ]);
-
-      logger.info(loggerMessages.info.database.admin.trust_token_created);
+        logger.info(
+          formatMessage(loggerMessages.info.database.initial_row_inserted, {
+            rowName: initializeRowsQueries[query].queryName,
+          })
+        );
+      });
     });
 
     db.on("trace", (query) => {
