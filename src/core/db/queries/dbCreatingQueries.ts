@@ -14,19 +14,30 @@ const dbCreatingQueries: IQuery = {
           external_id TEXT NOT NULL UNIQUE,
           admin BOOLEAN DEFAULT 0,
           subscription_level INTEGER DEFAULT 1,
-          status INTEGER DEFAULT 0,
-          tag_id INTEGER,
-          FOREIGN KEY (tag_id) REFERENCES user_tag (id)
+          status INTEGER DEFAULT 0
         );
       `,
+  },
+  tag: {
+    name: "Tag",
+    query: `
+        CREATE TABLE tag (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          tag TEXT NOT NULL UNIQUE
+        );
+        `,
   },
   user_tag: {
     name: "UserTag",
     query: `
         CREATE TABLE user_tag (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          tag TEXT NOT NULL UNIQUE
-        );
+          user_id INTEGER NOT NULL,
+          tag_id INTEGER NOT NULL,
+          UNIQUE(user_id, tag_id),
+          FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+          FOREIGN KEY (tag_id) REFERENCES tag (id) ON DELETE CASCADE
+        )
         `,
   },
   connection_tokens: {
@@ -101,7 +112,7 @@ const dbCreatingQueries: IQuery = {
         );
       `,
   },
-  messagesImages: {
+  messages_images: {
     name: "MessagesImages",
     query: `
         CREATE TABLE messages_images (
@@ -112,7 +123,7 @@ const dbCreatingQueries: IQuery = {
         );
       `,
   },
-  mailingsImages: {
+  mailings_images: {
     name: "MailingsImages",
     query: `
         CREATE TABLE mailings_images (
